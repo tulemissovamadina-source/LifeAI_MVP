@@ -138,6 +138,50 @@ if st.button("Показать план"):
 
     else:
         st.info("Задач пока нет")
+       st.divider()
+st.subheader("🧠 Итог дня")
+
+if st.button("Сделать анализ дня"):
+
+    records = sheet.get_all_records()
+
+    if records:
+
+        notes_text = "\n".join(
+            [f"{r['Тип']} | {r['Приоритет']} | {r['Описание']}" for r in records]
+        )
+
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": """
+Ты AI ассистент. Проанализируй список заметок пользователя.
+
+Сделай краткий итог:
+
+1. сколько задач
+2. сколько встреч
+3. что самое важное
+4. что стоит сделать завтра
+
+Ответ сделай кратким и понятным.
+"""
+                },
+                {
+                    "role": "user",
+                    "content": notes_text
+                }
+            ]
+        )
+
+        summary = response.choices[0].message.content
+
+        st.write(summary)
+
+    else:
+        st.info("Сегодня пока нет заметок")
         st.divider()
 st.subheader("Мои сохранённые заметки")
 
