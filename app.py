@@ -1,13 +1,28 @@
 import streamlit as st
 from openai import OpenAI
+import gspread
+from google.oauth2.service_account import Credentials
+import json
 
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
+scope = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
+
+service_account_info = json.loads(st.secrets["gcp_service_account"]["json"])
+
+creds = Credentials.from_service_account_info(
+    service_account_info,
+    scopes=scope
+)
+
+gs_client = gspread.authorize(creds)
+sheet = gs_client.open("LifeAI Notes").sheet1
+
 st.title("LifeAI Assistant")
 st.write("Напиши мысль, задачу, встречу или идею")
-
-if "saved_notes" not in st.session_state:
-    st.session_state.saved_notes = []
 
 user_input = st.text_area("Введите текст")
 
@@ -72,15 +87,10 @@ if "current_note" in st.session_state:
         st.markdown(f"**📝 Описание:** {note['Описание']}")
 
     if st.button("Сохранить заметку"):
-        st.session_state.saved_notes.append(note.copy())
-        st.success("Заметка сохранена")
-
-if st.session_state.saved_notes:
-    st.subheader("Сохранённые заметки")
-
-    for i, note in enumerate(st.session_state.saved_notes, start=1):
-        with st.expander(f"{i}. {note['Тип']} — {note['Описание']}"):
-            st.write(f"📌 Тип: {note['Тип']}")
-            st.write(f"⚡ Приоритет: {note['Приоритет']}")
-            st.write(f"📅 Дата: {note['Дата']}")
-            st.write(f"📝 Описание: {note['Описание']}")
+        sheet.append_row([
+            note["Тип"],
+            note["Приоритет"],
+            note["Дата"],
+            note["Описание"]
+        ])
+        st.success("Заметка сохранена в Google Sheets")
