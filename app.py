@@ -43,7 +43,8 @@ if audio_file is not None:
 
             st.session_state.voice_text = transcript.text
             st.success("Голос распознан")
-user_input = st.text_area("Введите текст")
+default_text = st.session_state.get("voice_text", "")
+user_input = st.text_area("Введите текст", value=default_text)
 
 if st.button("Проанализировать"):
     if user_input.strip() == "":
