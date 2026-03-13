@@ -19,7 +19,7 @@ creds = Credentials.from_service_account_info(
 )
 
 gs_client = gspread.authorize(creds)
-sheet = gs_client.open("12Ih5Mszzc1zF6ueu0YyanxL9EU_T4ereL5nIH-TR7Ac").sheet1
+sheet = gs_client.open_by_key("12Ih5Mszzc1zF6ueu0YyanxL9EU_T4ereL5nIH-TR7Ac").sheet1
 
 st.title("LifeAI Assistant")
 st.write("Напиши мысль, задачу, встречу или идею")
@@ -94,4 +94,5 @@ if "current_note" in st.session_state:
             note["Описание"]
         ])
         st.success("Заметка сохранена в Google Sheets")
+
 
