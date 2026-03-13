@@ -22,6 +22,16 @@ gs_client = gspread.authorize(creds)
 sheet = gs_client.open_by_key("12Ih5Mszzc1zF6ueu0YyanxL9EU_T4ereL5nIH-TR7Ac").sheet1
 
 st.title("LifeAI Assistant")
+page = st.sidebar.radio(
+    "Навигация",
+    [
+        "Главная",
+        "Новая заметка",
+        "Все заметки",
+        "План на сегодня",
+        "Итог дня"
+    ]
+)
 st.write("Напиши мысль, задачу, встречу или идею")
 
 st.subheader("🎤 Голосовая заметка")
