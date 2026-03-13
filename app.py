@@ -24,6 +24,25 @@ sheet = gs_client.open_by_key("12Ih5Mszzc1zF6ueu0YyanxL9EU_T4ereL5nIH-TR7Ac").sh
 st.title("LifeAI Assistant")
 st.write("Напиши мысль, задачу, встречу или идею")
 
+st.subheader("🎤 Голосовая заметка")
+
+audio_file = st.file_uploader(
+    "Загрузи аудиофайл (mp3, wav, m4a)",
+    type=["mp3", "wav", "m4a"]
+)
+
+if audio_file is not None:
+    st.audio(audio_file)
+
+    if st.button("Распознать голос"):
+        with st.spinner("Распознаю голос..."):
+            transcript = client.audio.transcriptions.create(
+                model="whisper-1",
+                file=audio_file
+            )
+
+            st.session_state.voice_text = transcript.text
+            st.success("Голос распознан")
 user_input = st.text_area("Введите текст")
 
 if st.button("Проанализировать"):
