@@ -94,5 +94,19 @@ if "current_note" in st.session_state:
             note["Описание"]
         ])
         st.success("Заметка сохранена в Google Sheets")
+st.divider()
+st.subheader("Мои сохранённые заметки")
+
+records = sheet.get_all_records()
+
+if records:
+    for i, record in enumerate(records, start=1):
+        with st.expander(f"{i}. {record['Тип']} — {record['Описание']}"):
+            st.write(f"📌 Тип: {record['Тип']}")
+            st.write(f"⚡ Приоритет: {record['Приоритет']}")
+            st.write(f"📅 Дата: {record['Дата']}")
+            st.write(f"📝 Описание: {record['Описание']}")
+else:
+    st.info("Пока заметок нет")
 
 
