@@ -104,6 +104,11 @@ filter_type = st.selectbox(
     ["Все", "встреча", "задача", "идея", "покупка", "проект"]
 )
 
+sort_option = st.selectbox(
+    "Сортировка",
+    ["Без сортировки", "По приоритету"]
+)
+
 if records:
     filtered_records = records
 
@@ -112,6 +117,18 @@ if records:
             record for record in records
             if record["Тип"].strip().lower() == filter_type.lower()
         ]
+
+    if sort_option == "По приоритету":
+        priority_order = {
+            "высокий": 1,
+            "средний": 2,
+            "низкий": 3
+        }
+
+        filtered_records = sorted(
+            filtered_records,
+            key=lambda record: priority_order.get(record["Приоритет"].strip().lower(), 99)
+        )
 
     if filtered_records:
         for i, record in enumerate(filtered_records, start=1):
@@ -124,6 +141,5 @@ if records:
         st.info("По этому типу заметок пока нет")
 else:
     st.info("Пока заметок нет")
-
 
 
