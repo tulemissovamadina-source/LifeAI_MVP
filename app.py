@@ -1,19 +1,47 @@
-from openai import OpenAI
 import streamlit as st
+from openai import OpenAI
 
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-import streamlit as st
 
-st.title("LifeAI MVP")
-st.write("Простейший прототип AI-ассистента")
+st.title("LifeAI Assistant")
+st.write("Напиши мысль, задачу, встречу или идею")
 
-text_note = st.text_area("Напишите заметку:")
+user_input = st.text_area("Введите текст")
 
-if st.button("Сохранить текст"):
-    st.write("Вы написали:", text_note)
+if st.button("Проанализировать"):
+    if user_input.strip() == "":
+        st.warning("Сначала введи текст")
+    else:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": """
+Ты AI-ассистент. Анализируй заметку пользователя.
 
-audio_file = st.file_uploader("Загрузите аудио (mp3/wav):", type=["mp3", "wav"])
-if audio_file is not None:
+Определи:
+- Тип: задача / идея / встреча / покупка / проект
+- Приоритет: высокий / средний / низкий
+- Дата: если указана, если нет — напиши "не указана"
+- Краткое описание
 
-    st.write("Аудио загружено:", audio_file.name)
+Ответ дай строго в таком виде:
 
+Тип:
+Приоритет:
+Дата:
+Краткое описание:
+"""
+                },
+                {
+                    "role": "user",
+                    "content": user_input
+                }
+            ]
+        )
+
+        result = response.choices[0].message.content
+
+        st.subheader("AI анализ")
+        st.write(result)
