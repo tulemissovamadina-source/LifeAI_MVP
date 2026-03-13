@@ -138,7 +138,7 @@ if st.button("Показать план"):
 
     else:
         st.info("Задач пока нет")
-       st.divider()
+st.divider()
 st.subheader("🧠 Итог дня")
 
 if st.button("Сделать анализ дня"):
