@@ -95,6 +95,30 @@ if "current_note" in st.session_state:
         ])
         st.success("Заметка сохранена в Google Sheets")
 st.divider()
+st.subheader("📅 План на сегодня")
+
+if st.button("Показать план"):
+    records = sheet.get_all_records()
+
+    if records:
+
+        priority_order = {
+            "высокий": 1,
+            "средний": 2,
+            "низкий": 3
+        }
+
+        sorted_tasks = sorted(
+            records,
+            key=lambda r: priority_order.get(r["Приоритет"].strip().lower(), 99)
+        )
+
+        for i, task in enumerate(sorted_tasks[:5], start=1):
+            st.write(f"{i}. {task['Тип']} — {task['Описание']}")
+
+    else:
+        st.info("Задач пока нет")
+        st.divider()
 st.subheader("Мои сохранённые заметки")
 
 records = sheet.get_all_records()
@@ -141,5 +165,6 @@ if records:
         st.info("По этому типу заметок пока нет")
 else:
     st.info("Пока заметок нет")
+
 
 
