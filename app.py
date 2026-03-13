@@ -150,13 +150,13 @@ elif page == "Новая заметка":
     if st.button("Сохранить заметку"):
         created_at = datetime.now().strftime("%Y-%m-%d %H:%M")
 
-    sheet.append_row([
-        created_at,
-        note["Тип"],
-        note["Приоритет"],
-        note["Дата"],
-        note["Описание"]
-    ])
+        sheet.append_row([
+            created_at,
+            note["Тип"],
+            note["Приоритет"],
+            note["Дата"],
+            note["Описание"]
+                ])
 
     st.success("Заметка сохранена в Google Sheets")
 
