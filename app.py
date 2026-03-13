@@ -3,6 +3,7 @@ from openai import OpenAI
 import gspread
 from google.oauth2.service_account import Credentials
 import json
+from datetime import datetime
 
 # -----------------------------
 # Подключение OpenAI
@@ -147,13 +148,16 @@ elif page == "Новая заметка":
         st.markdown(f"**📝 Описание:** {note['Описание']}")
 
         if st.button("Сохранить заметку"):
-            sheet.append_row([
-                note["Тип"],
-                note["Приоритет"],
-                note["Дата"],
-                note["Описание"]
-            ])
-            st.success("Заметка сохранена в Google Sheets")
+    created_at = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+    sheet.append_row([
+        created_at,
+        note["Тип"],
+        note["Приоритет"],
+        note["Дата"],
+        note["Описание"]
+    ])
+    st.success("Заметка сохранена в Google Sheets")
 
 # -----------------------------
 # Все заметки
@@ -197,10 +201,11 @@ elif page == "Все заметки":
         if filtered_records:
             for i, record in enumerate(filtered_records, start=1):
                 with st.expander(f"{i}. {record['Тип']} — {record['Описание']}"):
-                    st.write(f"📌 Тип: {record['Тип']}")
-                    st.write(f"⚡ Приоритет: {record['Приоритет']}")
-                    st.write(f"📅 Дата: {record['Дата']}")
-                    st.write(f"📝 Описание: {record['Описание']}")
+    st.write(f"🕒 Создано: {record['Создано']}")
+    st.write(f"📌 Тип: {record['Тип']}")
+    st.write(f"⚡ Приоритет: {record['Приоритет']}")
+    st.write(f"📅 Дата: {record['Дата']}")
+    st.write(f"📝 Описание: {record['Описание']}")
         else:
             st.info("По этому типу заметок пока нет")
     else:
