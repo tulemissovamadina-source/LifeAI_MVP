@@ -28,10 +28,10 @@ if st.button("Проанализировать"):
 
 Ответ дай строго в таком виде:
 
-Тип:
-Приоритет:
-Дата:
-Краткое описание:
+Тип: ...
+Приоритет: ...
+Дата: ...
+Краткое описание: ...
 """
                 },
                 {
@@ -43,5 +43,18 @@ if st.button("Проанализировать"):
 
         result = response.choices[0].message.content
 
-        st.subheader("AI анализ")
-        st.write(result)
+        lines = result.split("\n")
+        data = {}
+
+        for line in lines:
+            if ":" in line:
+                key, value = line.split(":", 1)
+                data[key.strip()] = value.strip()
+
+        st.subheader("Карточка заметки")
+
+        with st.container():
+            st.markdown(f"### 📌 Тип: {data.get('Тип', '-')}")
+            st.markdown(f"**⚡ Приоритет:** {data.get('Приоритет', '-')}")
+            st.markdown(f"**📅 Дата:** {data.get('Дата', '-')}")
+            st.markdown(f"**📝 Описание:** {data.get('Краткое описание', '-')}")
