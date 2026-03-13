@@ -148,7 +148,7 @@ elif page == "Новая заметка":
         st.markdown(f"**📝 Описание:** {note['Описание']}")
 
     if st.button("Сохранить заметку"):
-    created_at = datetime.now().strftime("%Y-%m-%d %H:%M")
+        created_at = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     sheet.append_row([
         created_at,
