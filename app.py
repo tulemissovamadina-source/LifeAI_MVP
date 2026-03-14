@@ -208,17 +208,17 @@ elif page == "Все заметки":
 
                          st.write(f"🕒 Создано: {record['Создано']}")
                          st.write(f"📌 Тип: {record['Тип']}")
-                        st.write(f"⚡ Приоритет: {record['Приоритет']}")
-                        st.write(f"📅 Дата: {record['Дата']}")
-                        st.write(f"⏰ Время: {record['Время']}")
-                        st.write(f"📝 Описание: {record['Описание']}")
-                        st.write(f"📍 Статус: {record['Статус']}")
+                         st.write(f"⚡ Приоритет: {record['Приоритет']}")
+                         st.write(f"📅 Дата: {record['Дата']}")
+                         st.write(f"⏰ Время: {record['Время']}")
+                         st.write(f"📝 Описание: {record['Описание']}")
+                         st.write(f"📍 Статус: {record['Статус']}")
 
-                        if record["Статус"] == "активна":
+                         if record["Статус"] == "активна":
 
-                          if st.button(f"✅ Выполнено {i}"):
+                           if st.button(f"✅ Выполнено {i}"):
 
-                              row_number = i + 1
+                               row_number = i + 1
 
                               sheet.update_cell(row_number, 7, "выполнена")
 
