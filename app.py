@@ -132,11 +132,12 @@ elif page == "Новая заметка":
                     data[key.strip()] = value.strip()
 
             st.session_state.current_note = {
-                "Тип": data.get("Тип", "-"),
+               "Тип": data.get("Тип", "-"),
                 "Приоритет": data.get("Приоритет", "-"),
-                "Дата": data.get("Дата", "-"),
+                "Дата": data.get("Дата", "не указана"),
+                "Время": data.get("Время", "не указано"),
                 "Описание": data.get("Краткое описание", "-")
-            }
+}
 
     if "current_note" in st.session_state:
         note = st.session_state.current_note
