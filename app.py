@@ -206,13 +206,13 @@ elif page == "Все заметки":
                 for i, record in enumerate(filtered_records, start=1):
     with st.expander(f"{i}. {record['Тип']} — {record['Описание']}"):
 
-        st.write(f"🕒 Создано: {record['Создано']}")
-        st.write(f"📌 Тип: {record['Тип']}")
-        st.write(f"⚡ Приоритет: {record['Приоритет']}")
-        st.write(f"📅 Дата: {record['Дата']}")
-        st.write(f"⏰ Время: {record['Время']}")
-        st.write(f"📝 Описание: {record['Описание']}")
-        st.write(f"📍 Статус: {record['Статус']}")
+            st.write(f"🕒 Создано: {record['Создано']}")
+            st.write(f"📌 Тип: {record['Тип']}")
+            st.write(f"⚡ Приоритет: {record['Приоритет']}")
+            st.write(f"📅 Дата: {record['Дата']}")
+            st.write(f"⏰ Время: {record['Время']}")
+            st.write(f"📝 Описание: {record['Описание']}")
+            st.write(f"📍 Статус: {record['Статус']}")
 
         if record["Статус"] == "активна":
 
