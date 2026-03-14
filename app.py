@@ -186,7 +186,7 @@ elif page == "Все заметки":
         if filter_type != "Все":
             filtered_records = [
                 record for record in records
-                if record["Тип"].strip().lower() == filter_type.lower()
+                if record.get("Тип", "").strip().lower() == filter_type.lower()
             ]
 
         if sort_option == "По приоритету":
@@ -198,36 +198,39 @@ elif page == "Все заметки":
 
             filtered_records = sorted(
                 filtered_records,
-                key=lambda record: priority_order.get(record["Приоритет"].strip().lower(), 99)
+                key=lambda record: priority_order.get(
+                    record.get("Приоритет", "").strip().lower(),
+                    99
+                )
             )
 
         if filtered_records:
             for i, record in enumerate(filtered_records, start=1):
-                for i, record in enumerate(filtered_records, start=1):
-                    with st.expander(f"{i}. {record['Тип']} — {record['Описание']}"):
+                with st.expander(f"{i}. {record.get('Тип', '-')} — {record.get('Описание', '-')}"):
 
-                         st.write(f"🕒 Создано: {record['Создано']}")
-                         st.write(f"📌 Тип: {record['Тип']}")
-                         st.write(f"⚡ Приоритет: {record['Приоритет']}")
-                         st.write(f"📅 Дата: {record['Дата']}")
-                         st.write(f"⏰ Время: {record['Время']}")
-                         st.write(f"📝 Описание: {record['Описание']}")
-                         st.write(f"📍 Статус: {record['Статус']}")
+                    st.write(f"🕒 Создано: {record.get('Создано', '-')}")
+                    st.write(f"📌 Тип: {record.get('Тип', '-')}")
+                    st.write(f"⚡ Приоритет: {record.get('Приоритет', '-')}")
+                    st.write(f"📅 Дата: {record.get('Дата', '-')}")
+                    st.write(f"⏰ Время: {record.get('Время', '-')}")
+                    st.write(f"📝 Описание: {record.get('Описание', '-')}")
 
-                         if record["Статус"] == "активна":
+                    status = record.get("Статус", "").strip()
+                    if status == "":
+                        status = "активна"
 
-                           if st.button(f"✅ Выполнено {i}"):
+                    st.write(f"📍 Статус: {status}")
 
-                                row_number = i + 1
-
-                                sheet.update_cell(row_number, 7, "выполнена")
-
-                                st.success("Задача отмечена выполненной")
+                    if status == "активна":
+                        if st.button(f"✅ Выполнено {i}"):
+                            row_number = i + 1
+                            sheet.update_cell(row_number, 7, "выполнена")
+                            st.success("Задача отмечена выполненной")
+                            st.rerun()
         else:
             st.info("По этому типу заметок пока нет")
     else:
         st.info("Пока заметок нет")
-
 # -----------------------------
 # План на сегодня
 # -----------------------------
