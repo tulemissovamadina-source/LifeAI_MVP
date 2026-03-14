@@ -148,17 +148,17 @@ elif page == "Новая заметка":
         st.markdown(f"**📝 Описание:** {note['Описание']}")
 
     if st.button("Сохранить заметку"):
-        created_at = datetime.now().strftime("%Y-%m-%d %H:%M")
+       created_at = datetime.now().strftime("%Y-%m-%d %H:%M")
 
-        sheet.append_row([
-            created_at,
-            note["Тип"],
-            note["Приоритет"],
-            note["Дата"],
-            note["Время"],
-            note["Описание"],
-            "активна"
-])
+    sheet.append_row([
+        created_at,
+        note.get("Тип", "-"),
+        note.get("Приоритет", "-"),
+        note.get("Дата", "не указана"),
+        note.get("Время", "не указано"),
+        note.get("Описание", "-"),
+        "активна"
+    ])
 
     st.success("Заметка сохранена в Google Sheets")
 
