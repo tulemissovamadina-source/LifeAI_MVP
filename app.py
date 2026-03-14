@@ -218,11 +218,11 @@ elif page == "Все заметки":
 
                            if st.button(f"✅ Выполнено {i}"):
 
-                               row_number = i + 1
+                                row_number = i + 1
 
-                              sheet.update_cell(row_number, 7, "выполнена")
+                                sheet.update_cell(row_number, 7, "выполнена")
 
-                               st.success("Задача отмечена выполненной")
+                                st.success("Задача отмечена выполненной")
         else:
             st.info("По этому типу заметок пока нет")
     else:
