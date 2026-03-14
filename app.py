@@ -155,8 +155,10 @@ elif page == "Новая заметка":
             note["Тип"],
             note["Приоритет"],
             note["Дата"],
-            note["Описание"]
-                ])
+            note["Время"],
+            note["Описание"],
+            "активна"
+])
 
     st.success("Заметка сохранена в Google Sheets")
 
@@ -201,12 +203,26 @@ elif page == "Все заметки":
 
         if filtered_records:
             for i, record in enumerate(filtered_records, start=1):
-                with st.expander(f"{i}. {record['Тип']} — {record['Описание']}"):
-                    st.write(f"🕒 Создано: {record['Создано']}")
-                    st.write(f"📌 Тип: {record['Тип']}")
-                    st.write(f"⚡ Приоритет: {record['Приоритет']}")
-                    st.write(f"📅 Дата: {record['Дата']}")
-                    st.write(f"📝 Описание: {record['Описание']}")
+                for i, record in enumerate(filtered_records, start=1):
+    with st.expander(f"{i}. {record['Тип']} — {record['Описание']}"):
+
+        st.write(f"🕒 Создано: {record['Создано']}")
+        st.write(f"📌 Тип: {record['Тип']}")
+        st.write(f"⚡ Приоритет: {record['Приоритет']}")
+        st.write(f"📅 Дата: {record['Дата']}")
+        st.write(f"⏰ Время: {record['Время']}")
+        st.write(f"📝 Описание: {record['Описание']}")
+        st.write(f"📍 Статус: {record['Статус']}")
+
+        if record["Статус"] == "активна":
+
+            if st.button(f"✅ Выполнено {i}"):
+
+                row_number = i + 1
+
+                sheet.update_cell(row_number, 7, "выполнена")
+
+                st.success("Задача отмечена выполненной")
         else:
             st.info("По этому типу заметок пока нет")
     else:
