@@ -152,6 +152,7 @@ elif page == "Новая заметка":
 
     if st.button("Сохранить заметку"):
        created_at = datetime.now().strftime("%Y-%m-%d %H:%M")
+        
         sheet.append_row([
                 created_at,
                 note.get("Тип", "-"),
